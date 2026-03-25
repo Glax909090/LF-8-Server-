@@ -1,10 +1,9 @@
 ﻿using LF_8_Server;
-using Newtonsoft.Json;
-using RestSharp;
 
-RestClient client = new("http://localhost:8080/");
+MonitoredClient client = new("localhost", "http://127.0.0.1:8080");
 
-RestRequest request = new("/stats", Method.Get);
-var response = client.Execute(request);
-var data = JsonConvert.DeserializeObject<MonitoringData>(response.Content!);
-Console.WriteLine(data);
+Console.WriteLine(client.CurrentData);
+
+client.UpdateData();
+
+Console.WriteLine(client.CurrentData);
