@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using LF_8_Server.JsonTypes;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace LF_8_Server
 {
-	internal class MonitoredClient(string hostname, string url)
+	internal class MonitoredClient(string url)
 	{
 		private RestClient _client = new(url);
 		RestRequest _updateRequest = new("/stats", Method.Get);
 		public MonitoringData CurrentData = new();
-		public string Hostname = hostname;
 
 		public void UpdateData()
 		{

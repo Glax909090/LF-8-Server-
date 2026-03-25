@@ -1,9 +1,20 @@
-﻿using LF_8_Server;
+﻿using Microsoft.AspNetCore.Builder;
+using LF_8_Server.RequestHandlers;
+using LF_8_Server.JsonTypes;
+using LF_8_Server;
 
-MonitoredClient client = new("localhost", "http://127.0.0.1:8080");
+var builder = WebApplication.CreateBuilder(args);
 
-Console.WriteLine(client.CurrentData);
+//test local client
+ServerStore.Clients.Add("localhost", new("http://127.0.0.1:8080/"));
 
-client.UpdateData();
+var app = builder.Build();
 
-Console.WriteLine(client.CurrentData);
+GetDataHandler getDataHandler = new();
+
+app.MapPost("/get-data", (GetDataRequest request) =>
+{
+	return getDataHandler.HandleRequest(request);
+});
+
+app.Run("http://0.0.0.0:8000");

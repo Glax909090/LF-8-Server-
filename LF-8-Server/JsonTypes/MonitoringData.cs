@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace LF_8_Server
+namespace LF_8_Server.JsonTypes
 {
 	internal class MemoryUsage
 	{
