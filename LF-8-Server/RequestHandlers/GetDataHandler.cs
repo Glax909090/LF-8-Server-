@@ -1,5 +1,6 @@
-﻿using LF_8_Server.JsonTypes;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using LF_8_Server.JsonTypes;
+using LF_8_Server.Utils;
 
 namespace LF_8_Server.RequestHandlers
 {
@@ -9,15 +10,13 @@ namespace LF_8_Server.RequestHandlers
 		{
 			Dictionary<string, MonitoringData> clientResponses = [];
 
-			if (requestData.Client != null && ServerStore.Clients.TryGetValue(requestData.Client, out MonitoredClient? client) && client != null)
+			if (requestData.Client != null && SaveManager.StoreInstance.Clients.TryGetValue(requestData.Client, out MonitoredClient? client) && client != null)
 			{
-				client.UpdateData();
 				clientResponses.Add(requestData.Client, client.CurrentData);
 			} else if (requestData.Client == null)
 			{
-				foreach(var kvp in ServerStore.Clients)
+				foreach(var kvp in SaveManager.StoreInstance.Clients)
 				{
-					kvp.Value.UpdateData();
 					clientResponses.Add(kvp.Key, kvp.Value.CurrentData);
 				}
 			}

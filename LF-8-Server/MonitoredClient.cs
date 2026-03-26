@@ -4,10 +4,16 @@ using RestSharp;
 
 namespace LF_8_Server
 {
+	[method: JsonConstructor]
 	internal class MonitoredClient(string url)
 	{
-		private RestClient _client = new(url);
-		RestRequest _updateRequest = new("/stats", Method.Get);
+		public string Url { get; } = url;
+
+		[JsonIgnore]
+		private readonly RestClient _client = new(url);
+		[JsonIgnore]
+		private readonly RestRequest _updateRequest = new("/stats", Method.Get);
+		[JsonIgnore]
 		public MonitoringData CurrentData = new();
 
 		public void UpdateData()
