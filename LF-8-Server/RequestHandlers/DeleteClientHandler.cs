@@ -8,12 +8,12 @@ namespace LF_8_Server.RequestHandlers
 	{
 		public override IResult HandleRequest(ClientRequest data)
 		{
-			if (data == null || data.Url == null || data.Hostname == null)
+			if (data == null || data.Hostname == null)
 			{
 				return Results.BadRequest(new
 				{
 					success = false,
-					message = "Data, Data.Url and Data.Hostname can not be null"
+					message = "Data and Data.Hostname can not be null"
 				});
 			}
 

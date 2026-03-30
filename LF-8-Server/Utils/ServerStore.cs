@@ -1,10 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using LF_8_Server.JsonTypes;
+using Newtonsoft.Json;
 
 namespace LF_8_Server.Utils
 {
 	internal class ServerStore
 	{
 		public Dictionary<string, MonitoredClient> Clients = [];
+		public List<UserEntry> Users = [];
+		public string AdminToken = "";
 	}
 
 	internal class SaveManager
@@ -26,6 +29,9 @@ namespace LF_8_Server.Utils
 			}
 
 			StoreInstance = JsonConvert.DeserializeObject<ServerStore>(File.ReadAllText(_savePath))!;
+			StoreInstance.Users ??= [];
+			StoreInstance.Clients ??= [];
+			StoreInstance.AdminToken ??= "";
 		}
 	}
 }
