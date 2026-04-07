@@ -39,7 +39,9 @@ namespace LF_8_Server.JsonTypes
 	internal class MonitoringData
 	{
 		public string Timestamp { get; set; } = "";
-		[JsonProperty("ram")]
+		[JsonProperty("cpuUsagePercent")]
+        public float Cpu { get; set; } = 0;
+        [JsonProperty("ram")]
 		public MemoryUsage Memory { get; set; } = new();
 		public DiskIO DiskIO { get; set; } = new();
 		public DiskUsage[] Disks { get; set; } = [];

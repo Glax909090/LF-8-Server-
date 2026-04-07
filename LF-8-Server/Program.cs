@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using LF_8_Server.JsonTypes;
 using LF_8_Server.RequestHandlers;
-using Microsoft.AspNetCore.Http;
-using LF_8_Server.JsonTypes;
 using LF_8_Server.Utils;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Org.BouncyCastle.Asn1.Ocsp;
+using RestSharp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,8 @@ AddUserHandler addUserHandler = new();
 AddClientHandler addClientHandler = new();
 AuthRequestHandler authRequestHandler = new();
 DeleteClientHandler deleteClientHandler = new();
+SetThresholdHandler setThresholdHandler = new();
+GetThresholdHandler getThresholdHandler = new();
 
 app.MapPost("/auth", (AuthRequest request) =>
 {
@@ -47,6 +51,32 @@ app.MapPost("/get-data", (GetDataRequest request) =>
 		});
 	}
 	return getDataHandler.HandleRequest(request);
+});
+
+app.MapPost("/get-threshold", (GetThresholdRequest request) =>
+{
+	if (!AuthUtils.VerifyAuth(request.AuthToken))
+	{
+		return Results.BadRequest(new
+		{
+			Success = false,
+			Message = "Invalid Auth Token"
+		});
+	}
+	return getThresholdHandler.HandleRequest(request);
+});
+
+app.MapPost("/set-threshold", (SetThresholdRequest request) =>
+{
+	if (!AuthUtils.VerifyAuth(request.AuthToken))
+	{
+		return Results.BadRequest(new
+		{
+			Success = false,
+			Message = "Invalid Auth Token"
+		});
+	}
+	return setThresholdHandler.HandleRequest(request);
 });
 
 app.MapPost("/add-client", (ClientRequest request) =>

@@ -10,7 +10,7 @@ namespace LF_8_Server.RequestHandlers
 		{
 			if (data != null && data.Hostname != null && data.Url != null)
 			{
-				SaveManager.StoreInstance.Clients.Add(data.Hostname, new(data.Url));
+				SaveManager.StoreInstance.Clients.Add(data.Hostname, new(data.Url, data.Hostname, null, null, null));
 				SaveManager.Save();
 				return Results.Ok(new
 				{
