@@ -1,10 +1,8 @@
-﻿using LF_8_Server.JsonTypes;
+﻿using Microsoft.AspNetCore.Builder;
 using LF_8_Server.RequestHandlers;
-using LF_8_Server.Utils;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Org.BouncyCastle.Asn1.Ocsp;
-using RestSharp;
+using LF_8_Server.JsonTypes;
+using LF_8_Server.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +19,8 @@ AuthRequestHandler authRequestHandler = new();
 DeleteClientHandler deleteClientHandler = new();
 SetThresholdHandler setThresholdHandler = new();
 GetThresholdHandler getThresholdHandler = new();
+
+LogUtils.Initialize();
 
 app.MapPost("/auth", (AuthRequest request) =>
 {

@@ -41,22 +41,25 @@ namespace LF_8_Server
 					{
 						HasCpuAlert = true;
 						MailUtils.SendMail($"CPU Alert for Client {Hostname} (eom)", "");
+						LogUtils.LogAlert(LogUtils.Logger, Hostname, "CPU");
 					} else if (CurrentData.Cpu < MaxCpu && HasCpuAlert)
 					{
 						HasCpuAlert = false;
 						MailUtils.SendMail($"CPU Alert for Client {Hostname} cleared (eom)", "");
+						LogUtils.LogAlertCleared(LogUtils.Logger, Hostname, "CPU");
 					}
 
 					float memoryPercent = (CurrentData.Memory.Used / CurrentData.Memory.Total) * 100;
-					Console.WriteLine(memoryPercent + " memory");
 					if (memoryPercent > MaxRam && !HasRamAlert)
 					{
 						HasRamAlert = true;
 						MailUtils.SendMail($"Ram Alert for Client {Hostname} (eom)", "");
+						LogUtils.LogAlert(LogUtils.Logger, Hostname, "Ram");
 					} else if (memoryPercent < MaxRam && HasRamAlert)
 					{
 						HasRamAlert = false;
 						MailUtils.SendMail($"Ram Alert for Client {Hostname} cleared (eom)", "");
+						LogUtils.LogAlertCleared(LogUtils.Logger, Hostname, "Ram");
 					}
 
 					bool isDiskOver = false;
@@ -74,10 +77,12 @@ namespace LF_8_Server
 					{
 						HasDiskAlert = true;
 						MailUtils.SendMail($"Disk Alert for Client {Hostname} (eom)", "");
+						LogUtils.LogAlert(LogUtils.Logger, Hostname, "Disk");
 					} else if (!isDiskOver && HasDiskAlert)
 					{
 						HasDiskAlert = false;
 						MailUtils.SendMail($"Disk Alert for Client {Hostname} cleared (eom)", "");
+						LogUtils.LogAlertCleared(LogUtils.Logger, Hostname, "Disk");
 					}
 				} else
 				{
